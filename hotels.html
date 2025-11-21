@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WebNest Hotels | Stays Around Phoenix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-soft: #ffffff;
+      --bg-header: rgba(248, 250, 252, 0.9);
+      --border-subtle: #e5e7eb;
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --accent-strong: #1d4ed8;
+      --shadow-soft: 0 18px 35px rgba(15, 23, 42, 0.08);
+      --pill-bg: #f3f4f6;
+      --pill-border: #e5e7eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #020617;
+        --bg-soft: #020617;
+        --bg-header: rgba(2, 6, 23, 0.9);
+        --border-subtle: #1f2937;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.1);
+        --accent-strong: #0ea5e9;
+        --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.7);
+        --pill-bg: #020617;
+        --pill-border: #1f2937;
+      }
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,rgba(37,99,235,.06),transparent 45%),var(--bg);color:var(--text-main);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 1.5rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:var(--bg-header);border-bottom:1px solid var(--border-subtle)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1.5rem}
+    .logo{font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
+    .logo-pill{width:26px;height:26px;border-radius:999px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--accent);box-shadow:0 10px 25px rgba(37,99,235,.2)}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.3rem;font-size:.9rem}
+    .nav-links a{color:var(--text-muted);position:relative;padding-bottom:.1rem;transition:color .15s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-.1rem;width:0;height:2px;background:var(--accent);border-radius:999px;transition:width .15s}
+    .nav-links a:hover{color:var(--text-main)}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a.active{color:var(--accent-strong)}
+    .nav-links a.active::after{width:100%}
+    .btn-primary{background:var(--accent);color:#f9fafb;padding:.55rem 1.2rem;border-radius:999px;font-weight:600;font-size:.85rem;border:none;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s;box-shadow:0 14px 30px rgba(37,99,235,.35);white-space:nowrap}
+    .btn-primary:hover{background:var(--accent-strong);transform:translateY(-1px);box-shadow:0 18px 40px rgba(37,99,235,.45)}
+    main{padding:2.4rem 0 3rem}
+    .page-header{margin-bottom:1.4rem}
+    .page-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.25rem}
+    .page-title{font-size:1.7rem;font-weight:700;margin-bottom:.25rem}
+    .page-sub{font-size:.9rem;color:var(--text-muted);max-width:620px}
+    .filters-row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:space-between;margin-top:1.2rem}
+    .filters-left{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+    .filters-label{font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.12em;margin-right:.15rem}
+    .pill-btn{padding:.35rem .9rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:.78rem;cursor:pointer;color:var(--text-muted);transition:background .15s,border .15s,color .15s}
+    .pill-btn.active,.pill-btn:hover{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-soft)}
+    .search-box{display:flex;align-items:center;gap:.6rem;padding:.45rem .75rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--bg-soft);font-size:.85rem;min-width:240px}
+    .search-box input{border:none;outline:none;background:transparent;color:var(--text-main);font-size:.85rem;flex:1}
+    .search-box input::placeholder{color:var(--text-muted)}
+    .cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+    .card{background:var(--bg-soft);border-radius:18px;padding:.7rem .7rem .9rem;border:1px solid var(--border-subtle);box-shadow:0 10px 24px rgba(15,23,42,.06);transition:transform .15s,box-shadow .15s,border .15s;font-size:.86rem;display:flex;flex-direction:column;gap:.5rem}
+    .card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-soft)}
+    .card-image{border-radius:14px;overflow:hidden;height:170px;background:#e5e7eb}
+    @media(prefers-color-scheme:dark){.card-image{background:#020617}}
+    .card-image img{width:100%;height:100%;object-fit:cover}
+    .card-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted)}
+    .card-name{font-size:.98rem;font-weight:600}
+    .card-location{font-size:.82rem;color:var(--text-muted)}
+    .card-desc{font-size:.82rem;color:var(--text-muted)}
+    .card-bottom{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-top:.2rem}
+    .card-price{font-size:.86rem;font-weight:600}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:flex-end}
+    .tag{padding:.12rem .45rem;border-radius:999px;background:var(--pill-bg);border:1px solid var(--pill-border);font-size:.7rem;color:var(--text-muted)}
+    footer{padding:1.8rem 0 2rem;border-top:1px solid var(--border-subtle);font-size:.78rem;color:var(--text-muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    @media(max-width:960px){.nav-links{display:none}}
+    @media(max-width:780px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.cards-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-pill">W</div>
+        <div>Web<span>Nest</span></div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="hotels.html" class="active">Hotels</a>
+        <a href="homes.html">Homes</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="btn-primary" onclick="location.href='contact.html'">
+        Start a project
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div class="page-label">Hotels & stays</div>
+      <div class="page-title">Places to stay around Phoenix</div>
+      <div class="page-sub">
+        Example hotel and stay listings you can use as a base. Names, addresses, and prices are sample-style
+        and can be replaced with real properties when a client is ready.
+      </div>
+    </div>
+
+    <div class="filters-row">
+      <div class="filters-left">
+        <span class="filters-label">Filter</span>
+        <button class="pill-btn active" data-filter="all">All</button>
+        <button class="pill-btn" data-filter="hotel">Hotels</button>
+        <button class="pill-btn" data-filter="motel">Motels</button>
+        <button class="pill-btn" data-filter="suite">Suites</button>
+        <button class="pill-btn" data-filter="airport">Airport</button>
+        <button class="pill-btn" data-filter="downtown">Downtown</button>
+        <button class="pill-btn" data-filter="budget">$</button>
+        <button class="pill-btn" data-filter="mid">$$</button>
+        <button class="pill-btn" data-filter="premium">$$$</button>
+      </div>
+      <div class="search-box">
+        <input id="hotelSearch" type="text" placeholder="Search: area, price, pool, Wi-Fi, address..." />
+      </div>
+    </div>
+
+    <div class="cards-grid" id="hotelGrid">
+      <!-- Example hotels -->
+      <article class="card"
+        data-type="hotel"
+        data-tags="downtown mid"
+        data-text="Downtown Skyline Hotel 101 N Central Ave Phoenix AZ 85004 modern hotel near Footprint Center light rail central free wifi">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Downtown+Skyline+Hotel" alt="Downtown Skyline Hotel" />
+        </div>
+        <div class="card-type">Hotel • $$</div>
+        <div class="card-name">Downtown Skyline Hotel</div>
+        <div class="card-location">101 N Central Ave, Phoenix, AZ 85004</div>
+        <div class="card-desc">
+          Modern hotel in the middle of downtown Phoenix, a short walk from restaurants, arenas, and light rail.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$130–$190 / night</div>
+          <div class="tag-row">
+            <span class="tag">Downtown</span>
+            <span class="tag">Free Wi-Fi</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="suite"
+        data-tags="north mid"
+        data-text="Desert View Suites 18000 N 7th St Phoenix AZ 85022 north phoenix mountain views suites pool parking">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Desert+View+Suites" alt="Desert View Suites" />
+        </div>
+        <div class="card-type">Suites • $$</div>
+        <div class="card-name">Desert View Suites</div>
+        <div class="card-location">18000 N 7th St, Phoenix, AZ 85022</div>
+        <div class="card-desc">
+          Suite-style rooms with kitchenettes and desert views, in a quiet part of North Phoenix.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$95–$140 / night</div>
+          <div class="tag-row">
+            <span class="tag">Pool</span>
+            <span class="tag">Kitchenette</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="airport budget"
+        data-text="Airport Stopover Inn 2200 E Sky Harbor Blvd Phoenix AZ 85034 near phx sky harbor airport shuttle breakfast budget">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Airport+Stopover+Inn" alt="Airport Stopover Inn" />
+        </div>
+        <div class="card-type">Hotel • $</div>
+        <div class="card-name">Airport Stopover Inn</div>
+        <div class="card-location">2200 E Sky Harbor Blvd, Phoenix, AZ 85034</div>
+        <div class="card-desc">
+          Simple, clean rooms close to PHX Sky Harbor with shuttle service and early breakfast times.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$85–$120 / night</div>
+          <div class="tag-row">
+            <span class="tag">Airport</span>
+            <span class="tag">Shuttle</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="motel"
+        data-tags="central budget"
+        data-text="Desert Budget Motel 3200 N 16th St Phoenix AZ 85016 central motel basic rooms ac parking low price">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Desert+Budget+Motel" alt="Desert Budget Motel" />
+        </div>
+        <div class="card-type">Motel • $</div>
+        <div class="card-name">Desert Budget Motel</div>
+        <div class="card-location">3200 N 16th St, Phoenix, AZ 85016</div>
+        <div class="card-desc">
+          Basic motel with AC and parking. Good if you mostly just need a place to sleep and shower.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$55–$80 / night</div>
+          <div class="tag-row">
+            <span class="tag">Budget</span>
+            <span class="tag">Parking</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="scottsdale premium"
+        data-text="Old Town Loft Stay 7300 E Main St Scottsdale AZ 85251 old town scottsdale loft nightlife short stay premium">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Old+Town+Loft+Stay" alt="Old Town Loft Stay" />
+        </div>
+        <div class="card-type">Loft stay • $$$</div>
+        <div class="card-name">Old Town Loft Stay</div>
+        <div class="card-location">7300 E Main St, Scottsdale, AZ 85251</div>
+        <div class="card-desc">
+          Loft-style stay in Old Town Scottsdale with big windows, walkable streets, and active nightlife nearby.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$150–$230 / night</div>
+          <div class="tag-row">
+            <span class="tag">Nightlife</span>
+            <span class="tag">Short stay</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="suite"
+        data-tags="east mid"
+        data-text="East Valley Suites 1400 W Broadway Rd Mesa AZ 85202 suites east valley mesa chandler family kitchen long stay">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=East+Valley+Suites" alt="East Valley Suites" />
+        </div>
+        <div class="card-type">Suites • $$</div>
+        <div class="card-name">East Valley Suites</div>
+        <div class="card-location">1400 W Broadway Rd, Mesa, AZ 85202</div>
+        <div class="card-desc">
+          One- and two-bed suites with kitchenettes and laundry, close to Mesa and Chandler.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$110–$165 / night</div>
+          <div class="tag-row">
+            <span class="tag">Kitchen</span>
+            <span class="tag">Family</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="downtown mid"
+        data-text="City Center Inn 500 W Washington St Phoenix AZ 85003 downtown hotel near convention center mid price">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=City+Center+Inn" alt="City Center Inn" />
+        </div>
+        <div class="card-type">Hotel • $$</div>
+        <div class="card-name">City Center Inn</div>
+        <div class="card-location">500 W Washington St, Phoenix, AZ 85003</div>
+        <div class="card-desc">
+          Simple rooms close to the Phoenix Convention Center and bus/light rail connections.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$100–$150 / night</div>
+          <div class="tag-row">
+            <span class="tag">Downtown</span>
+            <span class="tag">Business</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="north premium"
+        data-text="North Ridge Resort 21000 N Tatum Blvd Phoenix AZ 85050 resort north phoenix pool spa premium stay">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=North+Ridge+Resort" alt="North Ridge Resort" />
+        </div>
+        <div class="card-type">Hotel • $$$</div>
+        <div class="card-name">North Ridge Resort</div>
+        <div class="card-location">21000 N Tatum Blvd, Phoenix, AZ 85050</div>
+        <div class="card-desc">
+          Larger hotel-style resort with pool and spa in North Phoenix, near shopping and dining.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$170–$260 / night</div>
+          <div class="tag-row">
+            <span class="tag">Pool</span>
+            <span class="tag">Spa</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="motel"
+        data-tags="west budget"
+        data-text="West Side Motor Inn 8900 W Indian School Rd Phoenix AZ 85037 west phoenix budget motel parking">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=West+Side+Motor+Inn" alt="West Side Motor Inn" />
+        </div>
+        <div class="card-type">Motel • $</div>
+        <div class="card-name">West Side Motor Inn</div>
+        <div class="card-location">8900 W Indian School Rd, Phoenix, AZ 85037</div>
+        <div class="card-desc">
+          Drive-up style motel on the west side with basic rooms, AC, and on-site parking.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$60–$90 / night</div>
+          <div class="tag-row">
+            <span class="tag">Budget</span>
+            <span class="tag">Parking</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="airport mid"
+        data-text="Runway Rest Hotel 2500 E Van Buren St Phoenix AZ 85008 hotel near airport good for early flights shuttle">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Runway+Rest+Hotel" alt="Runway Rest Hotel" />
+        </div>
+        <div class="card-type">Hotel • $$</div>
+        <div class="card-name">Runway Rest Hotel</div>
+        <div class="card-location">2500 E Van Buren St, Phoenix, AZ 85008</div>
+        <div class="card-desc">
+          Mid-range hotel a short drive from the airport, with shuttle and late check-in options.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$110–$160 / night</div>
+          <div class="tag-row">
+            <span class="tag">Airport</span>
+            <span class="tag">Shuttle</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="suite"
+        data-tags="scottsdale premium"
+        data-text="Scottsdale Desert Suites 15555 N Scottsdale Rd Scottsdale AZ 85254 suites premium scottsdale">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Scottsdale+Desert+Suites" alt="Scottsdale Desert Suites" />
+        </div>
+        <div class="card-type">Suites • $$$</div>
+        <div class="card-name">Scottsdale Desert Suites</div>
+        <div class="card-location">15555 N Scottsdale Rd, Scottsdale, AZ 85254</div>
+        <div class="card-desc">
+          Suite hotel in North Scottsdale with larger rooms, kitchen areas, and pool.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$160–$240 / night</div>
+          <div class="tag-row">
+            <span class="tag">Scottsdale</span>
+            <span class="tag">Pool</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="hotel"
+        data-tags="east mid"
+        data-text="Mesa Gateway Inn 5800 S Sossaman Rd Mesa AZ 85212 hotel near mesa gateway airport east valley mid price">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Mesa+Gateway+Inn" alt="Mesa Gateway Inn" />
+        </div>
+        <div class="card-type">Hotel • $$</div>
+        <div class="card-name">Mesa Gateway Inn</div>
+        <div class="card-location">5800 S Sossaman Rd, Mesa, AZ 85212</div>
+        <div class="card-desc">
+          Hotel near Phoenix-Mesa Gateway Airport, convenient for East Valley flights and road trips.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$100–$150 / night</div>
+          <div class="tag-row">
+            <span class="tag">Airport</span>
+            <span class="tag">East Valley</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> WebNest · Phoenix, AZ</div>
+      <div>
+        Contact: <a href="mailto:jonnychancard@gmail.com">jonnychancard@gmail.com</a> · 602-802-7306
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const buttons = Array.from(document.querySelectorAll(".pill-btn"));
+    const cards = Array.from(document.querySelectorAll("#hotelGrid .card"));
+    const searchInput = document.getElementById("hotelSearch");
+    let activeFilter = "all";
+
+    function applyHotelFilters() {
+      const query = (searchInput.value || "").toLowerCase().trim();
+      cards.forEach(card => {
+        const type = card.getAttribute("data-type") || "";
+        const tags = card.getAttribute("data-tags") || "";
+        const text = card.getAttribute("data-text") || "";
+        const combined = (type + " " + tags + " " + text).toLowerCase();
+        const matchesFilter =
+          activeFilter === "all" ||
+          type.includes(activeFilter) ||
+          tags.includes(activeFilter);
+        const matchesSearch = !query || combined.includes(query);
+        card.style.display = matchesFilter && matchesSearch ? "" : "none";
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.getAttribute("data-filter") || "all";
+        applyHotelFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", applyHotelFilters);
+    applyHotelFilters();
+  </script>
+</body>
+</html>

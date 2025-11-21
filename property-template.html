@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Property Template | WebNest Listing Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg:#f5f5f7;--bg-soft:#ffffff;--bg-header:rgba(248,250,252,.9);
+      --border-subtle:#e5e7eb;--text-main:#0f172a;--text-muted:#6b7280;
+      --accent:#2563eb;--accent-soft:rgba(37,99,235,.08);--accent-strong:#1d4ed8;
+      --shadow-soft:0 18px 35px rgba(15,23,42,.08);--pill-bg:#f3f4f6;--pill-border:#e5e7eb;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#020617;--bg-soft:#020617;--bg-header:rgba(2,6,23,.9);
+      --border-subtle:#1f2937;--text-main:#e5e7eb;--text-muted:#9ca3af;
+      --accent:#38bdf8;--accent-soft:rgba(56,189,248,.1);--accent-strong:#0ea5e9;
+      --shadow-soft:0 22px 45px rgba(15,23,42,.7);--pill-bg:#020617;--pill-border:#1f2937;}
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,rgba(37,99,235,.06),transparent 45%),var(--bg);color:var(--text-main);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 1.5rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:var(--bg-header);border-bottom:1px solid var(--border-subtle)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1.5rem}
+    .logo{font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
+    .logo-pill{width:26px;height:26px;border-radius:999px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--accent);box-shadow:0 10px 25px rgba(37,99,235,.2)}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.3rem;font-size:.9rem}
+    .nav-links a{color:var(--text-muted);position:relative;padding-bottom:.1rem;transition:color .15s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-.1rem;width:0;height:2px;background:var(--accent);border-radius:999px;transition:width .15s}
+    .nav-links a:hover{color:var(--text-main)}
+    .nav-links a:hover::after{width:100%}
+    .btn-primary{background:var(--accent);color:#f9fafb;padding:.5rem 1.1rem;border-radius:999px;font-weight:600;font-size:.82rem;border:none;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s;box-shadow:0 12px 26px rgba(37,99,235,.35);white-space:nowrap}
+    .btn-primary:hover{background:var(--accent-strong);transform:translateY(-1px);box-shadow:0 16px 32px rgba(37,99,235,.45)}
+    main{padding:2.4rem 0 3rem}
+    .top-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.2rem}
+    .back-link{font-size:.84rem;color:var(--accent-strong)}
+    .title-block{margin-bottom:.5rem}
+    .title{font-size:1.7rem;font-weight:700}
+    .location{font-size:.9rem;color:var(--text-muted)}
+    .hero-grid{display:grid;grid-template-columns:2fr 1.4fr;gap:1.2rem;margin-top:1.3rem}
+    .main-photo{border-radius:18px;overflow:hidden;height:260px;background:#e5e7eb}
+    @media(prefers-color-scheme:dark){.main-photo{background:#020617}}
+    .main-photo img{width:100%;height:100%;object-fit:cover}
+    .info-card{background:var(--bg-soft);border-radius:18px;padding:1rem 1rem 1.1rem;border:1px solid var(--border-subtle);box-shadow:var(--shadow-soft);font-size:.88rem;color:var(--text-muted)}
+    .price{font-size:1.2rem;font-weight:700;color:var(--accent-strong)}
+    .tags{margin-top:.6rem}
+    .tag{display:inline-flex;align-items:center;gap:.3rem;padding:.26rem .6rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:.76rem;margin-right:.3rem;margin-top:.3rem}
+    .layout{display:grid;grid-template-columns:2fr 1.2fr;gap:1.3rem;margin-top:1.6rem}
+    .card{background:var(--bg-soft);border-radius:18px;padding:1rem 1.1rem 1.2rem;border:1px solid var(--border-subtle);box-shadow:var(--shadow-soft);font-size:.88rem;color:var(--text-muted)}
+    .card h2{font-size:1rem;font-weight:600;margin-bottom:.4rem;color:var(--text-main)}
+    .list{margin-top:.25rem;padding-left:1.1rem}
+    .list li{margin-bottom:.22rem}
+    footer{padding:1.8rem 0 2rem;border-top:1px solid var(--border-subtle);font-size:.78rem;color:var(--text-muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    @media(max-width:960px){.nav-links{display:none}.hero-grid,.layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <div class="logo-pill">W</div>
+      <div>Web<span>Nest</span></div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="homes.html">Homes</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="btn-primary" onclick="location.href='contact.html'">
+      Start a project
+    </button>
+  </div>
+</header>
+
+<main class="container">
+  <div class="top-bar">
+    <a class="back-link" href="hotels.html">← Back to hotels</a>
+    <button class="btn-primary" onclick="location.href='contact.html'">Ask for a similar page</button>
+  </div>
+
+  <div class="title-block">
+    <div class="title">Downtown Skyline Hotel (Demo)</div>
+    <div class="location">101 N Central Ave, Phoenix, AZ 85004 · Example listing page</div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="main-photo">
+      <img src="https://via.placeholder.com/800x500?text=Property+Photo" alt="Property main photo" />
+    </div>
+    <div class="info-card">
+      <p class="price">$130–$190 / night</p>
+      <p style="margin-top:.3rem;">
+        Modern downtown hotel-style stay close to arenas, food, and light rail. This page layout is a template
+        that can be reused for a real property.
+      </p>
+      <div class="tags">
+        <span class="tag">Downtown</span>
+        <span class="tag">Free Wi-Fi</span>
+        <span class="tag">Business</span>
+      </div>
+      <p style="margin-top:.8rem;font-size:.82rem;">
+        To adapt this layout, details like room types, exact prices, photos, and contact options can be filled in
+        based on the real hotel or rental.
+      </p>
+    </div>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <h2>About this place</h2>
+      <p>
+        This example page is built to hold a full description of a stay or rental. It could talk about the rooms,
+        the vibe, what’s nearby, and anything else a guest should know before booking.
+      </p>
+      <p style="margin-top:.6rem;">
+        A real property page might include:
+      </p>
+      <ul class="list">
+        <li>Room types (king, double, suite, etc.).</li>
+        <li>Check-in and check-out times.</li>
+        <li>Parking details and any extra fees.</li>
+        <li>House rules or guest notes.</li>
+      </ul>
+    </section>
+
+    <aside class="card">
+      <h2>Quick facts</h2>
+      <ul class="list">
+        <li>Type: Hotel-style stay.</li>
+        <li>Area: Downtown Phoenix.</li>
+        <li>Example range: $130–$190 / night.</li>
+        <li>Guests: Ideal for solo, couples, or work trips.</li>
+      </ul>
+      <p style="margin-top:.6rem;font-size:.84rem;">
+        For a real hotel or agent, this box can show key stats so visitors can decide quickly.
+      </p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> WebNest · Phoenix, AZ</div>
+    <div>
+      Contact: <a href="mailto:jonnychancard@gmail.com">jonnychancard@gmail.com</a> · 602-802-7306
+    </div>
+  </div>
+</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

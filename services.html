@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Services | WebNest Websites</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg:#f5f5f7;--bg-soft:#ffffff;--bg-header:rgba(248,250,252,.9);
+      --border-subtle:#e5e7eb;--text-main:#0f172a;--text-muted:#6b7280;
+      --accent:#2563eb;--accent-soft:rgba(37,99,235,.08);--accent-strong:#1d4ed8;
+      --shadow-soft:0 18px 35px rgba(15,23,42,.08);--pill-bg:#f3f4f6;--pill-border:#e5e7eb;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#020617;--bg-soft:#020617;--bg-header:rgba(2,6,23,.9);
+      --border-subtle:#1f2937;--text-main:#e5e7eb;--text-muted:#9ca3af;
+      --accent:#38bdf8;--accent-soft:rgba(56,189,248,.1);--accent-strong:#0ea5e9;
+      --shadow-soft:0 22px 45px rgba(15,23,42,.7);--pill-bg:#020617;--pill-border:#1f2937;}
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,rgba(37,99,235,.06),transparent 45%),var(--bg);color:var(--text-main);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 1.5rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:var(--bg-header);border-bottom:1px solid var(--border-subtle)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1.5rem}
+    .logo{font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
+    .logo-pill{width:26px;height:26px;border-radius:999px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--accent);box-shadow:0 10px 25px rgba(37,99,235,.2)}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.3rem;font-size:.9rem}
+    .nav-links a{color:var(--text-muted);position:relative;padding-bottom:.1rem;transition:color .15s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-.1rem;width:0;height:2px;background:var(--accent);border-radius:999px;transition:width .15s}
+    .nav-links a:hover{color:var(--text-main)}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a.active{color:var(--accent-strong)}
+    .nav-links a.active::after{width:100%}
+    .btn-primary{background:var(--accent);color:#f9fafb;padding:.55rem 1.2rem;border-radius:999px;font-weight:600;font-size:.85rem;border:none;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s;box-shadow:0 14px 30px rgba(37,99,235,.35);white-space:nowrap}
+    .btn-primary:hover{background:var(--accent-strong);transform:translateY(-1px);box-shadow:0 18px 40px rgba(37,99,235,.45)}
+    main{padding:2.4rem 0 3rem}
+    .page-header{margin-bottom:1.6rem}
+    .page-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.25rem}
+    .page-title{font-size:1.8rem;font-weight:700;margin-bottom:.25rem}
+    .page-sub{font-size:.9rem;color:var(--text-muted);max-width:640px}
+    .grid{display:grid;grid-template-columns:2fr 3fr;gap:2rem;margin-top:1.6rem}
+    .card{background:var(--bg-soft);border-radius:18px;padding:1.1rem 1.1rem 1.2rem;border:1px solid var(--border-subtle);box-shadow:var(--shadow-soft);font-size:.9rem;color:var(--text-muted)}
+    .card strong{color:var(--text-main)}
+    .service-list{margin-top:.6rem;padding-left:1.2rem;font-size:.88rem}
+    .service-list li{margin-bottom:.3rem}
+    .pill-row{margin-top:.8rem}
+    .pill{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .7rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:.78rem;margin-right:.3rem;margin-top:.3rem}
+    .table{margin-top:1rem;border-radius:14px;border:1px solid var(--border-subtle);overflow:hidden;font-size:.86rem}
+    .table-row{display:grid;grid-template-columns:1.5fr 1fr 2fr;border-bottom:1px solid var(--border-subtle)}
+    .table-row.header{background:var(--pill-bg);font-weight:600;color:var(--text-muted)}
+    .cell{padding:.55rem .7rem}
+    .note{margin-top:.7rem;font-size:.8rem;color:var(--text-muted)}
+    footer{padding:1.8rem 0 2rem;border-top:1px solid var(--border-subtle);font-size:.78rem;color:var(--text-muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    @media(max-width:960px){.nav-links{display:none}.grid{grid-template-columns:1fr}}
+    @media(max-width:560px){.table-row{grid-template-columns:1.3fr .9fr 1.8fr}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <div class="logo-pill">W</div>
+      <div>Web<span>Nest</span></div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="hotels.html">Hotels</a>
+      <a href="homes.html">Homes</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button class="btn-primary" onclick="location.href='contact.html'">
+      Start a project
+    </button>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-header">
+    <div class="page-label">Services</div>
+    <div class="page-title">What WebNest builds</div>
+    <div class="page-sub">
+      WebNest focuses on small, focused sites that help people actually find rooms, rentals, or services
+      without getting lost in menus or slow pages.
+    </div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <p><strong>Core service: hotel & stay websites</strong></p>
+      <ul class="service-list">
+        <li>Landing pages for hotels, motels, and short stays.</li>
+        <li>Room cards that show price ranges, features, and location.</li>
+        <li>Filters and search so guests can find what fits them.</li>
+        <li>Links out to booking systems or contact info.</li>
+      </ul>
+
+      <p style="margin-top:.9rem;"><strong>Housing & rentals pages</strong></p>
+      <ul class="service-list">
+        <li>Listings for apartments, studios, and houses.</li>
+        <li>Tags like “pool”, “pet friendly”, “long stay”, “student”.</li>
+        <li>Address, price ranges, and simple descriptions.</li>
+        <li>Can be used by one agent, landlord, or a small team.</li>
+      </ul>
+
+      <p style="margin-top:.9rem;"><strong>Small business sites</strong></p>
+      <ul class="service-list">
+        <li>One-page websites for local services.</li>
+        <li>Sections for what you do, prices, and how to reach you.</li>
+        <li>Clean design that looks good on phones.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <p><strong>Typical WebNest project includes</strong></p>
+      <div class="pill-row">
+        <span class="pill">Responsive layout</span>
+        <span class="pill">Light & dark mode</span>
+        <span class="pill">Search & filters</span>
+        <span class="pill">Clear pricing blocks</span>
+        <span class="pill">Contact section</span>
+      </div>
+
+      <div class="table">
+        <div class="table-row header">
+          <div class="cell">Type</div>
+          <div class="cell">Pages</div>
+          <div class="cell">What it’s for</div>
+        </div>
+        <div class="table-row">
+          <div class="cell">Hotel / stay site</div>
+          <div class="cell">1–4</div>
+          <div class="cell">Showing rooms, prices, and features in a simple way.</div>
+        </div>
+        <div class="table-row">
+          <div class="cell">Housing / rentals</div>
+          <div class="cell">1–5</div>
+          <div class="cell">Showing multiple rentals for an agent or landlord.</div>
+        </div>
+        <div class="table-row">
+          <div class="cell">Business one-pager</div>
+          <div class="cell">1</div>
+          <div class="cell">Giving a link to share on social or messages.</div>
+        </div>
+      </div>
+
+      <p class="note">
+        Everything is built with HTML, CSS, and a bit of JavaScript, then hosted
+        on GitHub Pages or another simple platform.
+      </p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> WebNest · Phoenix, AZ</div>
+    <div>
+      Contact: <a href="mailto:jonnychancard@gmail.com">jonnychancard@gmail.com</a> · 602-802-7306
+    </div>
+  </div>
+</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

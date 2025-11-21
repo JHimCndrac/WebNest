@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About WebNest | Phoenix-Based Student Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg:#f5f5f7;--bg-soft:#ffffff;--bg-header:rgba(248,250,252,.9);
+      --border-subtle:#e5e7eb;--text-main:#0f172a;--text-muted:#6b7280;
+      --accent:#2563eb;--accent-soft:rgba(37,99,235,.08);--accent-strong:#1d4ed8;
+      --shadow-soft:0 18px 35px rgba(15,23,42,.08);--pill-bg:#f3f4f6;--pill-border:#e5e7eb;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#020617;--bg-soft:#020617;--bg-header:rgba(2,6,23,.9);
+      --border-subtle:#1f2937;--text-main:#e5e7eb;--text-muted:#9ca3af;
+      --accent:#38bdf8;--accent-soft:rgba(56,189,248,.1);--accent-strong:#0ea5e9;
+      --shadow-soft:0 22px 45px rgba(15,23,42,.7);--pill-bg:#020617;--pill-border:#1f2937;}
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,rgba(37,99,235,.06),transparent 45%),var(--bg);color:var(--text-main);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 1.5rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:var(--bg-header);border-bottom:1px solid var(--border-subtle)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1.5rem}
+    .logo{font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
+    .logo-pill{width:26px;height:26px;border-radius:999px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--accent);box-shadow:0 10px 25px rgba(37,99,235,.2)}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.3rem;font-size:.9rem}
+    .nav-links a{color:var(--text-muted);position:relative;padding-bottom:.1rem;transition:color .15s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-.1rem;width:0;height:2px;background:var(--accent);border-radius:999px;transition:width .15s}
+    .nav-links a:hover{color:var(--text-main)}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a.active{color:var(--accent-strong)}
+    .nav-links a.active::after{width:100%}
+    .btn-primary{background:var(--accent);color:#f9fafb;padding:.55rem 1.2rem;border-radius:999px;font-weight:600;font-size:.85rem;border:none;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s;box-shadow:0 14px 30px rgba(37,99,235,.35);white-space:nowrap}
+    .btn-primary:hover{background:var(--accent-strong);transform:translateY(-1px);box-shadow:0 18px 40px rgba(37,99,235,.45)}
+    main{padding:2.4rem 0 3rem}
+    .page-header{margin-bottom:1.5rem}
+    .page-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.25rem}
+    .page-title{font-size:1.8rem;font-weight:700;margin-bottom:.25rem}
+    .page-sub{font-size:.9rem;color:var(--text-muted);max-width:640px}
+    .about-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:2rem;margin-top:1.6rem}
+    .card{background:var(--bg-soft);border-radius:18px;padding:1.1rem 1.1rem 1.2rem;border:1px solid var(--border-subtle);box-shadow:var(--shadow-soft);font-size:.9rem;color:var(--text-muted)}
+    .card strong{color:var(--text-main)}
+    .list{margin-top:.5rem;padding-left:1.1rem;font-size:.88rem}
+    .list li{margin-bottom:.2rem}
+    .highlight{padding:.6rem .8rem;border-radius:.9rem;background:var(--pill-bg);border:1px dashed var(--pill-border);margin-top:.7rem;font-size:.82rem}
+    .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:.9rem;font-size:.86rem}
+    .pill{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .7rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:.78rem;margin-right:.3rem;margin-top:.3rem}
+    footer{padding:1.8rem 0 2rem;border-top:1px solid var(--border-subtle);font-size:.78rem;color:var(--text-muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    @media(max-width:960px){.nav-links{display:none}.about-grid{grid-template-columns:1fr}}
+    @media(max-width:560px){.two-col{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-pill">W</div>
+        <div>Web<span>Nest</span></div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="homes.html">Homes</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="btn-primary" onclick="location.href='contact.html'">
+        Start a project
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div class="page-label">About</div>
+      <div class="page-title">What WebNest is and who’s behind it</div>
+      <div class="page-sub">
+        WebNest is a small personal project built in Phoenix by a 16-year-old student who is learning software
+        engineering by working on real websites instead of only school assignments.
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <section class="card">
+        <p><strong>WebNest in simple words</strong></p>
+        <p style="margin-top:.4rem;">
+          WebNest focuses on clean, simple sites for hotels, short-term stays, and real estate. The goal is not
+          to build huge, complicated apps — it’s to create pages that are clear, fast, and easy for normal people
+          to use on their phone or laptop.
+        </p>
+
+        <p style="margin-top:.7rem;"><strong>Why hotels and housing?</strong></p>
+        <ul class="list">
+          <li>People always need places to stay and places to live.</li>
+          <li>Even one small hotel or landlord can benefit from a good website.</li>
+          <li>Listings and booking pages are a real skill in web dev and software engineering.</li>
+        </ul>
+
+        <div class="highlight">
+          Built with HTML, CSS, and JavaScript — the same core tools used in bigger software projects,
+          just kept small and focused for now.
+        </div>
+      </section>
+
+      <aside class="card">
+        <p><strong>About the developer</strong></p>
+        <p style="margin-top:.4rem;">
+          WebNest is built by a 16-year-old in Phoenix who is already in college and aiming for software
+          engineering. The idea is to learn by actually shipping projects, not just watching tutorials.
+        </p>
+
+        <div class="two-col">
+          <div>
+            <strong>Focus areas</strong>
+            <ul class="list" style="margin-top:.25rem;">
+              <li>Hotel / stay websites</li>
+              <li>Housing / rental listing pages</li>
+              <li>Small business one-page sites</li>
+            </ul>
+          </div>
+          <div>
+            <strong>Tech stack</strong>
+            <ul class="list" style="margin-top:.25rem;">
+              <li>HTML & CSS layouts</li>
+              <li>Vanilla JavaScript</li>
+              <li>GitHub Pages hosting</li>
+            </ul>
+          </div>
+        </div>
+
+        <p style="margin-top:.7rem;"><strong>Values</strong></p>
+        <div>
+          <span class="pill">Clear information</span>
+          <span class="pill">Fast loading</span>
+          <span class="pill">Mobile-friendly</span>
+          <span class="pill">Easy to share</span>
+        </div>
+
+        <p style="margin-top:.7rem;">
+          If you ever wanted a simple site for your rooms, rentals, or small business, WebNest is built to be a
+          starting point that can grow with real needs.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> WebNest · Phoenix, AZ</div>
+      <div>
+        Contact: <a href="mailto:jonnychancard@gmail.com">jonnychancard@gmail.com</a> · 602-802-7306
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

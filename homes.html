@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WebNest Homes | Rentals & Listings Around Phoenix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-soft: #ffffff;
+      --bg-header: rgba(248, 250, 252, 0.9);
+      --border-subtle: #e5e7eb;
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --accent-strong: #1d4ed8;
+      --shadow-soft: 0 18px 35px rgba(15, 23, 42, 0.08);
+      --pill-bg: #f3f4f6;
+      --pill-border: #e5e7eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #020617;
+        --bg-soft: #020617;
+        --bg-header: rgba(2, 6, 23, 0.9);
+        --border-subtle: #1f2937;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.1);
+        --accent-strong: #0ea5e9;
+        --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.7);
+        --pill-bg: #020617;
+        --pill-border: #1f2937;
+      }
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:radial-gradient(circle at top,rgba(37,99,235,.06),transparent 45%),var(--bg);color:var(--text-main);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 1.5rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:var(--bg-header);border-bottom:1px solid var(--border-subtle)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;gap:1.5rem}
+    .logo{font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:.45rem}
+    .logo-pill{width:26px;height:26px;border-radius:999px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--accent);box-shadow:0 10px 25px rgba(37,99,235,.2)}
+    .logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.3rem;font-size:.9rem}
+    .nav-links a{color:var(--text-muted);position:relative;padding-bottom:.1rem;transition:color .15s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-.1rem;width:0;height:2px;background:var(--accent);border-radius:999px;transition:width .15s}
+    .nav-links a:hover{color:var(--text-main)}
+    .nav-links a:hover::after{width:100%}
+    .nav-links a.active{color:var(--accent-strong)}
+    .nav-links a.active::after{width:100%}
+    .btn-primary{background:var(--accent);color:#f9fafb;padding:.55rem 1.2rem;border-radius:999px;font-weight:600;font-size:.85rem;border:none;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s;box-shadow:0 14px 30px rgba(37,99,235,.35);white-space:nowrap}
+    .btn-primary:hover{background:var(--accent-strong);transform:translateY(-1px);box-shadow:0 18px 40px rgba(37,99,235,.45)}
+    main{padding:2.4rem 0 3rem}
+    .page-header{margin-bottom:1.4rem}
+    .page-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:.25rem}
+    .page-title{font-size:1.7rem;font-weight:700;margin-bottom:.25rem}
+    .page-sub{font-size:.9rem;color:var(--text-muted);max-width:620px}
+    .filters-row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;justify-content:space-between;margin-top:1.2rem}
+    .filters-left{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+    .filters-label{font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.12em;margin-right:.15rem}
+    .pill-btn{padding:.35rem .9rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--pill-bg);font-size:.78rem;cursor:pointer;color:var(--text-muted);transition:background .15s,border .15s,color .15s}
+    .pill-btn.active,.pill-btn:hover{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-soft)}
+    .search-box{display:flex;align-items:center;gap:.6rem;padding:.45rem .75rem;border-radius:999px;border:1px solid var(--pill-border);background:var(--bg-soft);font-size:.85rem;min-width:240px}
+    .search-box input{border:none;outline:none;background:transparent;color:var(--text-main);font-size:.85rem;flex:1}
+    .search-box input::placeholder{color:var(--text-muted)}
+    .cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+    .card{background:var(--bg-soft);border-radius:18px;padding:.7rem .7rem .9rem;border:1px solid var(--border-subtle);box-shadow:0 10px 24px rgba(15,23,42,.06);transition:transform .15s,box-shadow .15s,border .15s;font-size:.86rem;display:flex;flex-direction:column;gap:.5rem}
+    .card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-soft)}
+    .card-image{border-radius:14px;overflow:hidden;height:170px;background:#e5e7eb}
+    @media(prefers-color-scheme:dark){.card-image{background:#020617}}
+    .card-image img{width:100%;height:100%;object-fit:cover}
+    .card-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted)}
+    .card-name{font-size:.98rem;font-weight:600}
+    .card-location{font-size:.82rem;color:var(--text-muted)}
+    .card-desc{font-size:.82rem;color:var(--text-muted)}
+    .card-bottom{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-top:.2rem}
+    .card-price{font-size:.86rem;font-weight:600}
+    .tag-row{display:flex;flex-wrap:wrap;gap:.3rem;justify-content:flex-end}
+    .tag{padding:.12rem .45rem;border-radius:999px;background:var(--pill-bg);border:1px solid var(--pill-border);font-size:.7rem;color:var(--text-muted)}
+    footer{padding:1.8rem 0 2rem;border-top:1px solid var(--border-subtle);font-size:.78rem;color:var(--text-muted)}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    @media(max-width:960px){.nav-links{display:none}}
+    @media(max-width:780px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.cards-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-pill">W</div>
+        <div>Web<span>Nest</span></div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="hotels.html">Hotels</a>
+        <a href="homes.html" class="active">Homes</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <button class="btn-primary" onclick="location.href='contact.html'">
+        Start a project
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <div class="page-label">Homes & rentals</div>
+      <div class="page-title">Apartments, studios, and houses</div>
+      <div class="page-sub">
+        Example listings for rentals and homes around the Phoenix area. These can be swapped out for real
+        properties for an agent, landlord, or small real estate team.
+      </div>
+    </div>
+
+    <div class="filters-row">
+      <div class="filters-left">
+        <span class="filters-label">Filter</span>
+        <button class="pill-btn active" data-filter="all">All</button>
+        <button class="pill-btn" data-filter="apartment">Apartments</button>
+        <button class="pill-btn" data-filter="house">Houses</button>
+        <button class="pill-btn" data-filter="studio">Studios</button>
+        <button class="pill-btn" data-filter="budget">$</button>
+        <button class="pill-btn" data-filter="mid">$$</button>
+        <button class="pill-btn" data-filter="premium">$$$</button>
+        <button class="pill-btn" data-filter="pool">Pool</button>
+        <button class="pill-btn" data-filter="pet">Pet friendly</button>
+      </div>
+      <div class="search-box">
+        <input id="homeSearch" type="text" placeholder="Search: beds, pool, area, address..." />
+      </div>
+    </div>
+
+    <div class="cards-grid" id="homeGrid">
+      <article class="card"
+        data-type="studio"
+        data-tags="tempe budget"
+        data-text="Tempe Student Studio 1200 S College Ave Tempe AZ 85281 1 bed 1 bath studio near campus student budget">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Tempe+Student+Studio" alt="Tempe Student Studio" />
+        </div>
+        <div class="card-type">Studio • $</div>
+        <div class="card-name">Tempe Student Studio</div>
+        <div class="card-location">1200 S College Ave, Tempe, AZ 85281</div>
+        <div class="card-desc">
+          Compact studio with a small kitchen and desk setup, a short walk from campus and light rail.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$750–$950 / month</div>
+          <div class="tag-row">
+            <span class="tag">Student</span>
+            <span class="tag">Budget</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="house"
+        data-tags="west premium pool pet"
+        data-text="Family Home with Pool 8901 W Greenway Rd Peoria AZ 85381 3 bed 2 bath house pool backyard pet friendly">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Family+Home+with+Pool" alt="Family Home with Pool" />
+        </div>
+        <div class="card-type">House • $$$</div>
+        <div class="card-name">Family Home with Pool</div>
+        <div class="card-location">8901 W Greenway Rd, Peoria, AZ 85381</div>
+        <div class="card-desc">
+          Three-bedroom home with a fenced backyard pool, covered patio, and space for pets.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$2,000–$2,500 / month</div>
+          <div class="tag-row">
+            <span class="tag">Pool</span>
+            <span class="tag">Pet friendly</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="apartment"
+        data-tags="mesa mid"
+        data-text="East Valley Extended Stay 1450 E Southern Ave Mesa AZ 85204 1 bed 2 bed apartments long stay kitchen">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=East+Valley+Extended+Stay" alt="East Valley Extended Stay" />
+        </div>
+        <div class="card-type">Apartment • $$</div>
+        <div class="card-name">East Valley Extended Stay</div>
+        <div class="card-location">1450 E Southern Ave, Mesa, AZ 85204</div>
+        <div class="card-desc">
+          One- and two-bedroom units with full kitchens and on-site laundry, built for multi-month stays.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$1,300–$1,750 / month</div>
+          <div class="tag-row">
+            <span class="tag">Long stay</span>
+            <span class="tag">Kitchen</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="house"
+        data-tags="north premium"
+        data-text="North Phoenix 4BR Modern 3100 E Greenway Rd Phoenix AZ 85032 4 bed 3 bath house garage family">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=North+Phoenix+4BR" alt="North Phoenix 4BR Modern" />
+        </div>
+        <div class="card-type">House • $$$</div>
+        <div class="card-name">North Phoenix 4BR Modern</div>
+        <div class="card-location">3100 E Greenway Rd, Phoenix, AZ 85032</div>
+        <div class="card-desc">
+          Four-bedroom modern home with open living room, home office space, and a two-car garage.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$2,400–$3,000 / month</div>
+          <div class="tag-row">
+            <span class="tag">Family</span>
+            <span class="tag">Garage</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="studio"
+        data-tags="downtown budget"
+        data-text="Downtown Micro Studio 225 W Monroe St Phoenix AZ 85003 micro studio downtown walkable">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Downtown+Micro+Studio" alt="Downtown Micro Studio" />
+        </div>
+        <div class="card-type">Studio • $</div>
+        <div class="card-name">Downtown Micro Studio</div>
+        <div class="card-location">225 W Monroe St, Phoenix, AZ 85003</div>
+        <div class="card-desc">
+          Small but efficient studio space in the center of downtown, close to food and transit.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$900–$1,100 / month</div>
+          <div class="tag-row">
+            <span class="tag">Walkable</span>
+            <span class="tag">Budget</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="apartment"
+        data-tags="glendale mid pet"
+        data-text="Glendale 2BR Apartment 6001 W Olive Ave Glendale AZ 85302 2 bed 2 bath apartment balcony pet friendly">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Glendale+2BR" alt="Glendale 2BR Apartment" />
+        </div>
+        <div class="card-type">Apartment • $$</div>
+        <div class="card-name">Glendale 2BR Apartment</div>
+        <div class="card-location">6001 W Olive Ave, Glendale, AZ 85302</div>
+        <div class="card-desc">
+          Two-bedroom apartment with small balcony and covered parking, close to everyday shopping.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$1,400–$1,800 / month</div>
+          <div class="tag-row">
+            <span class="tag">Balcony</span>
+            <span class="tag">Pet friendly</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="apartment"
+        data-tags="chandler mid"
+        data-text="Chandler Tech District 1BR 260 N Arizona Ave Chandler AZ 85225 1 bed apartment near offices mid price">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Chandler+1BR" alt="Chandler Tech District 1BR" />
+        </div>
+        <div class="card-type">Apartment • $$</div>
+        <div class="card-name">Chandler Tech District 1BR</div>
+        <div class="card-location">260 N Arizona Ave, Chandler, AZ 85225</div>
+        <div class="card-desc">
+          One-bedroom unit near Chandler’s office parks and restaurants, built for working renters.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$1,500–$1,900 / month</div>
+          <div class="tag-row">
+            <span class="tag">Working</span>
+            <span class="tag">City center</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="house"
+        data-tags="south mid pool"
+        data-text="South Mountain View Home 2200 E Baseline Rd Phoenix AZ 85042 3 bed 2 bath house near south mountain pool">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=South+Mountain+Home" alt="South Mountain View Home" />
+        </div>
+        <div class="card-type">House • $$</div>
+        <div class="card-name">South Mountain View Home</div>
+        <div class="card-location">2200 E Baseline Rd, Phoenix, AZ 85042</div>
+        <div class="card-desc">
+          Three-bedroom home close to South Mountain trails, with a small pool and mountain views.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$1,900–$2,300 / month</div>
+          <div class="tag-row">
+            <span class="tag">Pool</span>
+            <span class="tag">Views</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="apartment"
+        data-tags="north mid"
+        data-text="North Phoenix 1BR 1920 E Bell Rd Phoenix AZ 85022 1 bed apartment north phoenix mid price">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=North+Phoenix+1BR" alt="North Phoenix 1BR" />
+        </div>
+        <div class="card-type">Apartment • $$</div>
+        <div class="card-name">North Phoenix 1BR</div>
+        <div class="card-location">1920 E Bell Rd, Phoenix, AZ 85022</div>
+        <div class="card-desc">
+          One-bedroom apartment near Bell Road with easy freeway access and on-site pool.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$1,250–$1,600 / month</div>
+          <div class="tag-row">
+            <span class="tag">Pool</span>
+            <span class="tag">North Phoenix</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="house"
+        data-tags="east premium pool"
+        data-text="Gilbert Suburban 4BR 780 E Elliot Rd Gilbert AZ 85234 4 bed 3 bath house with pool family premium">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Gilbert+4BR" alt="Gilbert Suburban 4BR" />
+        </div>
+        <div class="card-type">House • $$$</div>
+        <div class="card-name">Gilbert Suburban 4BR</div>
+        <div class="card-location">780 E Elliot Rd, Gilbert, AZ 85234</div>
+        <div class="card-desc">
+          Four-bedroom home in Gilbert with a bigger yard, pool, and two living spaces.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$2,500–$3,200 / month</div>
+          <div class="tag-row">
+            <span class="tag">Family</span>
+            <span class="tag">Pool</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card"
+        data-type="studio"
+        data-tags="mesa budget"
+        data-text="Mesa Studio Near Light Rail 400 W Main St Mesa AZ 85201 studio near light rail budget transit">
+        <div class="card-image">
+          <img src="https://via.placeholder.com/400x250?text=Mesa+Studio" alt="Mesa Studio Near Light Rail" />
+        </div>
+        <div class="card-type">Studio • $</div>
+        <div class="card-name">Mesa Studio Near Light Rail</div>
+        <div class="card-location">400 W Main St, Mesa, AZ 85201</div>
+        <div class="card-desc">
+          Simple studio with kitchenette in downtown Mesa, close to light rail stops.
+        </div>
+        <div class="card-bottom">
+          <div class="card-price">$800–$1,000 / month</div>
+          <div class="tag-row">
+            <span class="tag">Transit</span>
+            <span class="tag">Budget</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> WebNest · Phoenix, AZ</div>
+      <div>
+        Contact: <a href="mailto:jonnychancard@gmail.com">jonnychancard@gmail.com</a> · 602-802-7306
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const homeButtons = Array.from(document.querySelectorAll(".pill-btn"));
+    const homeCards = Array.from(document.querySelectorAll("#homeGrid .card"));
+    const homeSearch = document.getElementById("homeSearch");
+    let homeFilter = "all";
+
+    function applyHomeFilters() {
+      const q = (homeSearch.value || "").toLowerCase().trim();
+      homeCards.forEach(card => {
+        const type = card.getAttribute("data-type") || "";
+        const tags = card.getAttribute("data-tags") || "";
+        const text = card.getAttribute("data-text") || "";
+        const combined = (type + " " + tags + " " + text).toLowerCase();
+        const matchesFilter =
+          homeFilter === "all" ||
+          type.includes(homeFilter) ||
+          tags.includes(homeFilter);
+        const matchesSearch = !q || combined.includes(q);
+        card.style.display = matchesFilter && matchesSearch ? "" : "none";
+      });
+    }
+
+    homeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        homeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        homeFilter = btn.getAttribute("data-filter") || "all";
+        applyHomeFilters();
+      });
+    });
+
+    homeSearch.addEventListener("input", applyHomeFilters);
+    applyHomeFilters();
+  </script>
+</body>
+</html>
